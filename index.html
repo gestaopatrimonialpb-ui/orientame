@@ -35,22 +35,26 @@
   </div>
   <div id="root"></div>
 
-  <!-- React via CDN -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <!-- React via CDN (jsdelivr — sem redirecionamento) -->
+  <script crossorigin src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
 
   <!-- App compilado -->
   <script src="app.js"></script>
 
   <!-- Montar o app -->
   <script>
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(React.createElement(window.__OrientaMe));
-    // Remover tela de loading após montar
-    setTimeout(() => {
-      const l = document.getElementById('loading');
-      if (l) { l.style.opacity = '0'; setTimeout(() => l.remove(), 400); }
-    }, 800);
+    try {
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(React.createElement(window.__OrientaMe));
+      setTimeout(() => {
+        const l = document.getElementById('loading');
+        if (l) { l.style.opacity = '0'; setTimeout(() => l.remove(), 400); }
+      }, 800);
+    } catch(e) {
+      document.getElementById('loading').innerHTML = '<div style="color:#e05c5c;font-family:monospace;padding:20px;max-width:600px;text-align:center"><div style="font-size:32px;margin-bottom:12px">⚠️</div><div style="font-size:14px">Erro ao inicializar: ' + e.message + '</div></div>';
+      console.error(e);
+    }
   </script>
 </body>
 </html>
